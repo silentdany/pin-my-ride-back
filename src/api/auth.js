@@ -32,10 +32,9 @@ router.post('/', async (req, res, next) => {
     }
 
     // if yes, continue by comparing both password
-    const isValid = user.password;
 
     // if the password is not valid, throw a 401
-    if (!isValid) {
+    if (req.body.password !== user.password) {
       res.status(401);
       throw new Error('Invalid password');
     }
