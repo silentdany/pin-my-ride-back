@@ -1,0 +1,46 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["uncheckedScalarInputs"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model pin {
+  id         Int      @id @default(autoincrement())
+  label      String
+  summary    String
+  media      String
+  media_type String
+  date       DateTime
+  coord      String
+  id_ride    Int
+  ride       ride     @relation(fields: [id_ride], references: [id])
+
+  @@index([id_ride], name: "pin_ride_FK")
+}
+
+model ride {
+  id          Int      @id @default(autoincrement())
+  label       String
+  summary     String
+  start_date  DateTime
+  end_date    DateTime
+  start_coord String
+  id_user     Int
+  user        user     @relation(fields: [id_user], references: [id])
+  pin         pin[]
+
+  @@index([id_user], name: "ride_user_FK")
+}
+
+model user {
+  id        Int    @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String
+  password  String
+  ride      ride[]
+}
