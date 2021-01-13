@@ -32,4 +32,17 @@ const valRide = Joi.object().keys({
   id_user: Joi.number().required(),
 });
 
-module.exports = { valUser, valRide };
+const valPin = Joi.object().keys({
+  label: Joi.string().min(3).max(100).required(),
+  summary: Joi.string().min(3).max(255).required(),
+  media: Joi.string().min(15).max(255).required(),
+  media_type: Joi.string().length(5).required(),
+  date: Joi.string().isoDate().required(),
+  coord: Joi.object({
+    lat: Joi.string().min(6).max(8),
+    long: Joi.string().min(6).max(9),
+  }),
+  id_ride: Joi.number().required(),
+});
+
+module.exports = { valUser, valRide, valPin };

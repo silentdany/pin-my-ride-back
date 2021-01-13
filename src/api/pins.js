@@ -1,50 +1,53 @@
-/* eslint-disable camelcase */
 const express = require('express');
-const { valUser } = require('../joiSchemas');
+const { valPin } = require('../joiSchemas');
 const { joiValidation } = require('../middlewares');
 const prisma = require('../prismaClient');
 
 const router = express.Router();
 
 /**
- * A user (with id for output display)
- * @typedef {object} DisplayUser
+ * A pin (with id for output display)
+ * @typedef {object} DisplayPin
  * @property {number} id.required - ID
- * @property {string} firstname - Firstname
- * @property {string} lastname - Lastname
- * @property {string} email - Email
- * @property {string} password - Password
- * @property {object} ride - Rides
+ * @property {string} label - Name of the pin
+ * @property {string} summary - Summary
+ * @property {string} media - Media url
+ * @property {string} media_type - Media type
+ * @property {string} date - Date
+ * @property {object} coord - Coordinates
+ * @property {number} id_ride - Ride if the pin
  */
 
 /**
- * A user
- * @typedef {object} User
- * @property {string} firstname - Firstname
- * @property {string} lastname - Lastname
- * @property {string} email - Email
- * @property {string} password - Password 
- * @property {object} ride - Rides
+ * A pin
+ * @typedef {object} Pin
+* @property {string} label - Name of the pin
+ * @property {string} summary - Summary
+ * @property {string} media - Media url
+ * @property {string} media_type - Media type
+ * @property {string} date - Date
+ * @property {object} coord - Coordinates
+ * @property {number} id_ride - Ride if the pin
 
  */
 
 /**
- * GET /api/v0/users
- * @summary View all users
- * @tags users
- * @return {array<DisplayUser>} 200 - User list successfully retrieved
+ * GET /api/v0/pins
+ * @summary View all pins
+ * @tags pins
+ * @return {array<DisplayPin>} 200 - Pin list successfully retrieved
  * @return {object} 400 - Bad request
  */
 router.get('/', (req, res, next) => {
-  const { name } = req.query;
-  prisma.user
+  const { label } = req.query;
+  prisma.pin
     .findMany({
       where: {
-        firstName: name,
+        label,
       },
     })
-    .then((users) => {
-      res.status(200).json(users);
+    .then((pins) => {
+      res.status(200).json(pins);
     })
     .catch((err) => {
       res.sendStatus(400);
@@ -53,25 +56,25 @@ router.get('/', (req, res, next) => {
 });
 
 /**
- * GET /api/v0/users/{id}
- * @summary View user by id
- * @tags users
- * @param {number} id.path - id of wanted user
- * @return {array<DisplayUser>} 200 - User successfully retrieved
- * @return {object} 404 - User not found
+ * GET /api/v0/pins/{id}
+ * @summary View pin by id
+ * @tags pins
+ * @param {number} id.path - id of wanted pin
+ * @return {array<DisplayPin>} 200 - Pin successfully retrieved
+ * @return {object} 404 - Pin not found
  */
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
 
-  prisma.user
+  prisma.pin
     .findUnique({
       where: {
         id: parseInt(id, 10),
       },
     })
-    .then((user) => {
-      if (user !== null) {
-        res.status(200).json(user);
+    .then((pin) => {
+      if (pin !== null) {
+        res.status(200).json(pin);
       }
       next();
     })
@@ -82,22 +85,22 @@ router.get('/:id', (req, res, next) => {
 });
 
 /**
- * POST /api/v0/users
- * @summary Create a user
- * @tags users
- * @param {User} request.body.required - User info
- * @return {array<DisplayUser>} 201 - User successfully created
+ * POST /api/v0/pins
+ * @summary Create a pin
+ * @tags pins
+ * @param {Pin} request.body.required - pin info
+ * @return {array<DisplayPin>} 201 - Pin successfully created
  * @return {object} 422 - Bad data entries
  */
-router.post('/', joiValidation(valUser), (req, res, next) => {
+router.post('/', joiValidation(valPin), (req, res, next) => {
   const data = req.body;
 
-  prisma.user
+  prisma.pin
     .create({
       data: { ...data },
     })
-    .then((user) => {
-      res.status(201).json(user);
+    .then((pin) => {
+      res.status(201).json(pin);
     })
     .catch((err) => {
       res.sendStatus(422);
@@ -106,17 +109,17 @@ router.post('/', joiValidation(valUser), (req, res, next) => {
 });
 
 /**
- * DELETE /api/v0/users/{id}
- * @summary Delete a user
- * @tags users
- * @param {number} id.path - id of wanted user
- * @return {object} 204 - User successfully deleted
- * @return {object} 404 - User not found
+ * DELETE /api/v0/pins/{id}
+ * @summary Delete a pin
+ * @tags pins
+ * @param {number} id.path - id of wanted pin
+ * @return {object} 204 - Pin successfully deleted
+ * @return {object} 404 - Pin not found
  */
 router.delete('/:id', (req, res, next) => {
   const { id } = req.params;
 
-  prisma.user
+  prisma.pin
     .delete({
       where: {
         id: parseInt(id, 10),
@@ -132,28 +135,28 @@ router.delete('/:id', (req, res, next) => {
 });
 
 /**
- * PUT /api/v0/users/{id}
- * @summary Update a user
- * @tags users
- * @param {number} id.path - id of wanted user
- * @param {User} request.body.required - User info
- * @return {array<DisplayUser>} 200 - User successfully updated
- * @return {object} 404 - User not found
+ * PUT /api/v0/pins/{id}
+ * @summary Update a pin
+ * @tags pins
+ * @param {number} id.path - id of wanted pin
+ * @param {Pin} request.body.required - pin info
+ * @return {array<DisplayPin>} 200 - Pin successfully updated
+ * @return {object} 404 - Pin not found
  * @return {object} 422 - Bad data entries
  */
-router.put('/:id', joiValidation(valUser), (req, res, next) => {
+router.put('/:id', joiValidation(valPin), (req, res, next) => {
   const { id } = req.params;
   const data = req.body;
 
-  prisma.user
+  prisma.pin
     .update({
       where: {
         id: parseInt(id, 10),
       },
       data: { ...data },
     })
-    .then((updatedUser) => {
-      res.status(200).json(updatedUser);
+    .then((updatedPin) => {
+      res.status(200).json(updatedPin);
     })
     .catch((err) => {
       res.sendStatus(404);

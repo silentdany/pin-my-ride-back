@@ -14,7 +14,7 @@ const router = express.Router();
  * @property {string} start_date - Start of ride
  * @property {string} end_date - End of ride
  * @property {object} start_coord - Start coordinates
- * @property {number} id_user - ride id of the ride
+ * @property {number} id_user - User id of the ride
  */
 
 /**
@@ -25,7 +25,7 @@ const router = express.Router();
  * @property {string} start_date - Start of ride
  * @property {string} end_date - End of ride
  * @property {object} start_coord - Start coordinates
- * @property {number} id_user - ride id of the ride
+ * @property {number} id_user - User id of the ride
 
  */
 
