@@ -1,4 +1,4 @@
-# API Follow the market
+# API Pin My Ride
 
 This application provides a simple API for the dashboad used by Follow the market.
 
