@@ -15,7 +15,7 @@ model pin {
   media      String
   media_type String
   date       DateTime
-  coord      String
+  coord      Json
   id_ride    Int
   ride       ride     @relation(fields: [id_ride], references: [id])
 
@@ -28,7 +28,7 @@ model ride {
   summary     String
   start_date  DateTime
   end_date    DateTime
-  start_coord String
+  start_coord Json
   id_user     Int
   user        user     @relation(fields: [id_user], references: [id])
   pin         pin[]
