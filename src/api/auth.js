@@ -15,17 +15,16 @@ const router = express.Router();
  */
 
 router.post('/', async (req, res, next) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
   try {
-    // check if this admin exists in database
+    // check if this user exists in database
     const user = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    // if not, throw a 404
     if (!user) {
       res.status(404);
       throw new Error('User does not exists');
@@ -33,8 +32,7 @@ router.post('/', async (req, res, next) => {
 
     // if yes, continue by comparing both password
 
-    // if the password is not valid, throw a 401
-    if (req.body.password !== user.password) {
+    if (password !== user.password) {
       res.status(401);
       throw new Error('Invalid password');
     }
@@ -50,7 +48,6 @@ router.post('/', async (req, res, next) => {
       }
     );
 
-    // and then respond with the jwt in json
     res.status(200).json({
       token,
     });
