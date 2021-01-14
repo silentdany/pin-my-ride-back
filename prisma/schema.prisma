@@ -42,7 +42,7 @@ model user {
   id        Int    @id @default(autoincrement())
   firstname String
   lastname  String
-  email     String  @unique
+  email     String @unique
   password  String
   ride      ride[]
 }

@@ -41,7 +41,7 @@ describe('GET /api/v0/rides/:id/pins', () => {
       .get('/api/v0/rides/1/pins')
       .expect(200)
       .expect('Content-Type', /json/);
-    expect(res.body).toHaveLength(4);
+    expect(res.body).toHaveLength(5);
   });
 });
 // RIDES POST

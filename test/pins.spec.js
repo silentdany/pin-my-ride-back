@@ -29,7 +29,17 @@ describe('GET /api/v0/pins/:id', () => {
   });
 });
 // PINS POST
+let uploadPath = '';
 describe('POST methods for pins', () => {
+  it('POST / OK (file uploaded)', async () => {
+    const res = await supertest(app)
+      .post('/api/v0/pins/upload')
+      .attach('media', './testFiles/test.jpg')
+      .expect(201)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('path');
+    uploadPath = res.body.path;
+  });
   it('POST / error (fields missing)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins')
@@ -41,38 +51,30 @@ describe('POST methods for pins', () => {
   it('POST / OK (fields provided)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins')
-      .field('label', 'laborum Doe')
-      .field('summary', 'Beatae tempore harum omnis.')
-      .attach('media', './testFiles/test.jpg')
-      .field('media_type', 'image')
-      .field('date', '2020-08-22T15:05:45.000Z')
-      .field('lat', '80.5333')
-      .field('long', '52.6925')
-      .field('id_ride', 1)
-      // .send({
-      //   label: 'laborum',
-      //   summary: 'Beatae tempore harum omnis.',
-      //   media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
-      //   media_type: 'image',
-      //   date: '2020-08-22T15:05:45.000Z',
-      //   lat: '80.5333',
-      //   long: '52.6925',
-      //   id_ride: 1,
-      // })
+      .send({
+        label: 'laborum',
+        summary: 'Beatae tempore harum omnis.',
+        media: uploadPath,
+        media_type: 'image',
+        date: '2020-08-22T15:05:45.000Z',
+        lat: '80.5333',
+        long: '52.6925',
+        id_ride: 1,
+      })
       .expect(201)
       .expect('Content-Type', /json/);
-    // const expected = {
-    //   id: 2,
-    //   label: 'laborum',
-    //   summary: 'Beatae tempore harum omnis.',
-    //   media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
-    //   media_type: 'image',
-    //   date: '2020-08-22T15:05:45.000Z',
-    //   lat: '80.5333',
-    //   long: '52.6925',
-    //   id_ride: 1,
-    // };
-    expect(res.body).toBe(201);
+    const expected = {
+      id: 6,
+      label: 'laborum',
+      summary: 'Beatae tempore harum omnis.',
+      media: uploadPath,
+      media_type: 'image',
+      date: '2020-08-22T15:05:45.000Z',
+      lat: '80.5333',
+      long: '52.6925',
+      id_ride: 1,
+    };
+    expect(res.body).toEqual(expected);
   });
 });
 // PINS PUT
@@ -83,7 +85,7 @@ describe('PUT methods for pins', () => {
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
+        media: uploadPath,
         media_type: 'image',
         date: '2020-08-22T15:05:45.000Z',
         lat: '80.5333',
@@ -105,11 +107,11 @@ describe('PUT methods for pins', () => {
   });
   it('PUT / OK (fields provided)', async () => {
     const res = await supertest(app)
-      .put('/api/v0/pins/2')
+      .put('/api/v0/pins/6')
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
+        media: uploadPath,
         media_type: 'image',
         date: '2020-08-22T15:05:45.000Z',
         lat: '80.5333',
@@ -120,10 +122,10 @@ describe('PUT methods for pins', () => {
       .expect('Content-Type', /json/);
 
     const expected = {
-      id: 2,
+      id: 6,
       label: 'laborum',
       summary: 'Beatae tempore harum omnis.',
-      media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
+      media: uploadPath,
       media_type: 'image',
       date: '2020-08-22T15:05:45.000Z',
       lat: '80.5333',
@@ -144,7 +146,7 @@ describe('DELETE methods for pins', () => {
     expect(res.body).toEqual(expected);
   });
   it('DELETE / OK (user successfully deleted)', async () => {
-    await supertest(app).delete('/api/v0/pins/2').expect(204);
+    await supertest(app).delete('/api/v0/pins/3').expect(204);
   });
 });
 
