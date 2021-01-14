@@ -47,7 +47,8 @@ describe('POST methods for rides', () => {
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
         start_date: '2020-08-22T10:05:45.000Z',
         end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(201)
@@ -59,7 +60,8 @@ describe('POST methods for rides', () => {
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
       start_date: '2020-08-22T10:05:45.000Z',
       end_date: '2020-08-25T15:15:45.000Z',
-      start_coord: { lat: '80.4328', long: '52.6715' },
+      lat: '80.4328',
+      long: '52.6715',
       id_user: 1,
     };
     expect(res.body).toEqual(expected);
@@ -76,7 +78,8 @@ describe('PUT methods for rides', () => {
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
         start_date: '2020-08-22T10:05:45.000Z',
         end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(404)
@@ -101,7 +104,8 @@ describe('PUT methods for rides', () => {
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
         start_date: '2020-08-22T10:05:45.000Z',
         end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(200)
@@ -114,7 +118,8 @@ describe('PUT methods for rides', () => {
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
       start_date: '2020-08-22T10:05:45.000Z',
       end_date: '2020-08-25T15:15:45.000Z',
-      start_coord: { lat: '80.4328', long: '52.6715' },
+      lat: '80.4328',
+      long: '52.6715',
       id_user: 1,
     };
     expect(res.body).toEqual(expected);

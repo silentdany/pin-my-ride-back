@@ -6,7 +6,8 @@ CREATE TABLE `pin` (
     `media` VARCHAR(191) NOT NULL,
     `media_type` VARCHAR(191) NOT NULL,
     `date` DATETIME(3) NOT NULL,
-    `coord` VARCHAR(191) NOT NULL,
+    `lat` VARCHAR(191) NOT NULL,
+    `long` VARCHAR(191) NOT NULL,
     `id_ride` INT NOT NULL,
 INDEX `pin_ride_FK`(`id_ride`),
 
@@ -20,7 +21,8 @@ CREATE TABLE `ride` (
     `summary` VARCHAR(191) NOT NULL,
     `start_date` DATETIME(3) NOT NULL,
     `end_date` DATETIME(3) NOT NULL,
-    `start_coord` VARCHAR(191) NOT NULL,
+    `lat` VARCHAR(191) NOT NULL,
+    `long` VARCHAR(191) NOT NULL,
     `id_user` INT NOT NULL,
 INDEX `ride_user_FK`(`id_user`),
 

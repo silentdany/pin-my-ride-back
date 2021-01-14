@@ -41,13 +41,22 @@ describe('POST methods for pins', () => {
   it('POST / OK (fields provided)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins')
+      // .field('label', 'laborum Doe')
+      // .field('summary', 'Beatae tempore harum omnis.')
+      // .field('media', './testFiles/test.jpg')
+      // .field('media_type', 'image')
+      // .field('date', '2020-08-22T15:05:45.000Z')
+      // .field('lat', '80.5333')
+      // .field('long', '52.6925')
+      // .field('id_ride', 1)
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
         media_type: 'image',
         date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(201)
@@ -56,10 +65,11 @@ describe('POST methods for pins', () => {
       id: 2,
       label: 'laborum',
       summary: 'Beatae tempore harum omnis.',
-      media: '/media/img/trip.jpg',
+      media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
       media_type: 'image',
       date: '2020-08-22T15:05:45.000Z',
-      coord: { lat: '80.5333', long: '52.6925' },
+      lat: '80.5333',
+      long: '52.6925',
       id_ride: 1,
     };
     expect(res.body).toEqual(expected);
@@ -73,10 +83,11 @@ describe('PUT methods for pins', () => {
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
         media_type: 'image',
         date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(404)
@@ -98,10 +109,11 @@ describe('PUT methods for pins', () => {
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
         media_type: 'image',
         date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(200)
@@ -111,10 +123,11 @@ describe('PUT methods for pins', () => {
       id: 2,
       label: 'laborum',
       summary: 'Beatae tempore harum omnis.',
-      media: '/media/img/trip.jpg',
+      media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
       media_type: 'image',
       date: '2020-08-22T15:05:45.000Z',
-      coord: { lat: '80.5333', long: '52.6925' },
+      lat: '80.5333',
+      long: '52.6925',
       id_ride: 1,
     };
     expect(res.body).toEqual(expected);
