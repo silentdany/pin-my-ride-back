@@ -61,8 +61,6 @@ describe('POST methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
         lat: '80.4328',
         long: '52.6715',
         id_user: 1,
@@ -74,8 +72,6 @@ describe('POST methods for rides', () => {
       label: 'nostrum aut neque',
       summary:
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-      start_date: '2020-08-22T10:05:45.000Z',
-      end_date: '2020-08-25T15:15:45.000Z',
       lat: '80.4328',
       long: '52.6715',
       id_user: 1,
@@ -92,8 +88,6 @@ describe('PUT methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
         lat: '80.4328',
         long: '52.6715',
         id_user: 1,
@@ -118,8 +112,6 @@ describe('PUT methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
         lat: '80.4328',
         long: '52.6715',
         id_user: 1,
@@ -132,8 +124,6 @@ describe('PUT methods for rides', () => {
       label: 'nostrum aut neque',
       summary:
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-      start_date: '2020-08-22T10:05:45.000Z',
-      end_date: '2020-08-25T15:15:45.000Z',
       lat: '80.4328',
       long: '52.6715',
       id_user: 1,

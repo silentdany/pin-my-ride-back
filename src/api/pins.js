@@ -25,7 +25,6 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
- * @property {string} date - Date
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
@@ -38,7 +37,6 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
- * @property {string} date - Date
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin

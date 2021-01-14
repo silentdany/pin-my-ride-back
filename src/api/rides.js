@@ -11,8 +11,6 @@ const router = express.Router();
  * @property {number} id.required - ID
  * @property {string} label - Name of the ride
  * @property {string} summary - Summary
- * @property {string} start_date - Start of ride
- * @property {string} end_date - End of ride
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_user - User id of the ride
@@ -23,8 +21,6 @@ const router = express.Router();
  * @typedef {object} Ride
  * @property {string} label - Name of the ride
  * @property {string} summary - Summary
- * @property {string} start_date - Start of ride
- * @property {string} end_date - End of ride
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_user - User id of the ride
@@ -38,7 +34,6 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
- * @property {string} date - Date
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
