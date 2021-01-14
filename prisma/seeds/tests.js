@@ -16,7 +16,7 @@ const prisma = require('../../src/prismaClient');
     data: {
       firstname: faker.name.firstName(),
       lastname: faker.name.lastName(),
-      email: faker.internet.email(),
+      email: 'seed@wcs.com',
       password: 'P@ssw0rdÿ',
       ride: {},
     },
