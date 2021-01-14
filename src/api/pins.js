@@ -25,7 +25,8 @@ const router = express.Router();
  * @property {string} media - Media url
  * @property {string} media_type - Media type
  * @property {string} date - Date
- * @property {object} coord - Coordinates
+ * @property {string} lat - Latitude of coordinates
+ * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
  */
 
@@ -37,7 +38,8 @@ const router = express.Router();
  * @property {string} media - Media url
  * @property {string} media_type - Media type
  * @property {string} date - Date
- * @property {object} coord - Coordinates
+ * @property {string} lat - Latitude of coordinates
+ * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
 
  */
@@ -113,10 +115,6 @@ router.post(
     prisma.pin
       .create({
         data: { ...data },
-        // id_ride: parseInt(req.body.id_ride, 10),
-        // media: `${req.protocol}://${req.get('host')}/medias/${
-        //   req.file.filename
-        // }`,
       })
       .then((pin) => {
         res.status(201).json(pin);
