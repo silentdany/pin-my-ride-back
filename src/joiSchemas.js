@@ -33,7 +33,7 @@ const valRide = Joi.object().keys({
 const valPin = Joi.object().keys({
   label: Joi.string().min(3).max(100).required(),
   summary: Joi.string().min(3).max(255).required(),
-  media: Joi.string().min(15).max(255).required(),
+  media: Joi.string().min(2).max(255).required(),
   media_type: Joi.string().length(5).required(),
   date: Joi.string().isoDate().required(),
   lat: Joi.string().min(6).max(8),

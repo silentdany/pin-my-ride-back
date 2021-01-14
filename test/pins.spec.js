@@ -41,38 +41,38 @@ describe('POST methods for pins', () => {
   it('POST / OK (fields provided)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins')
-      // .field('label', 'laborum Doe')
-      // .field('summary', 'Beatae tempore harum omnis.')
-      // .field('media', './testFiles/test.jpg')
-      // .field('media_type', 'image')
-      // .field('date', '2020-08-22T15:05:45.000Z')
-      // .field('lat', '80.5333')
-      // .field('long', '52.6925')
-      // .field('id_ride', 1)
-      .send({
-        label: 'laborum',
-        summary: 'Beatae tempore harum omnis.',
-        media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
-        media_type: 'image',
-        date: '2020-08-22T15:05:45.000Z',
-        lat: '80.5333',
-        long: '52.6925',
-        id_ride: 1,
-      })
+      .field('label', 'laborum Doe')
+      .field('summary', 'Beatae tempore harum omnis.')
+      .attach('media', './testFiles/test.jpg')
+      .field('media_type', 'image')
+      .field('date', '2020-08-22T15:05:45.000Z')
+      .field('lat', '80.5333')
+      .field('long', '52.6925')
+      .field('id_ride', 1)
+      // .send({
+      //   label: 'laborum',
+      //   summary: 'Beatae tempore harum omnis.',
+      //   media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
+      //   media_type: 'image',
+      //   date: '2020-08-22T15:05:45.000Z',
+      //   lat: '80.5333',
+      //   long: '52.6925',
+      //   id_ride: 1,
+      // })
       .expect(201)
       .expect('Content-Type', /json/);
-    const expected = {
-      id: 2,
-      label: 'laborum',
-      summary: 'Beatae tempore harum omnis.',
-      media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
-      media_type: 'image',
-      date: '2020-08-22T15:05:45.000Z',
-      lat: '80.5333',
-      long: '52.6925',
-      id_ride: 1,
-    };
-    expect(res.body).toEqual(expected);
+    // const expected = {
+    //   id: 2,
+    //   label: 'laborum',
+    //   summary: 'Beatae tempore harum omnis.',
+    //   media: '/medias/img/7-destinations-parfaites-pour-un-road-trip-jpg.jpg',
+    //   media_type: 'image',
+    //   date: '2020-08-22T15:05:45.000Z',
+    //   lat: '80.5333',
+    //   long: '52.6925',
+    //   id_ride: 1,
+    // };
+    expect(res.body).toBe(201);
   });
 });
 // PINS PUT
