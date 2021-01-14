@@ -9,7 +9,7 @@ describe('GET methods for pins', () => {
       .get('/api/v0/pins')
       .expect(200)
       .expect('Content-Type', /json/);
-    expect(res.body.length).toEqual(1);
+    expect(res.body.length).toEqual(5);
   });
 });
 describe('GET /api/v0/pins/:id', () => {

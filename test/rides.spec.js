@@ -13,7 +13,7 @@ describe('GET methods for rides', () => {
   });
 });
 describe('GET /api/v0/rides/:id', () => {
-  it('GET / error (user not found)', async () => {
+  it('GET / error (ride not found)', async () => {
     const res = await supertest(app)
       .get('/api/v0/rides/0')
       .expect(404)
@@ -26,6 +26,22 @@ describe('GET /api/v0/rides/:id', () => {
       .expect(200)
       .expect('Content-Type', /json/);
     expect(res.body).toHaveProperty('id');
+  });
+});
+describe('GET /api/v0/rides/:id/pins', () => {
+  it('GET / error (ride not found)', async () => {
+    const res = await supertest(app)
+      .get('/api/v0/rides/0/pins')
+      .expect(404)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('stack');
+  });
+  it('GET / OK (fields provided)', async () => {
+    const res = await supertest(app)
+      .get('/api/v0/rides/1/pins')
+      .expect(200)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveLength(4);
   });
 });
 // RIDES POST

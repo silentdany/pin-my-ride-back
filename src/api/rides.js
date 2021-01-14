@@ -28,7 +28,20 @@ const router = express.Router();
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_user - User id of the ride
+ */
 
+/**
+ * A pin (with id for output display)
+ * @typedef {object} DisplayPin
+ * @property {number} id.required - ID
+ * @property {string} label - Name of the pin
+ * @property {string} summary - Summary
+ * @property {string} media - Media url
+ * @property {string} media_type - Media type
+ * @property {string} date - Date
+ * @property {string} lat - Latitude of coordinates
+ * @property {string} long - Longitude of coordinates
+ * @property {number} id_ride - Ride if the pin
  */
 
 /**
@@ -75,6 +88,35 @@ router.get('/:id', (req, res, next) => {
     .then((ride) => {
       if (ride !== null) {
         res.status(200).json(ride);
+      }
+      next();
+    })
+    .catch((err) => {
+      res.sendStatus(404);
+      next(err);
+    });
+});
+
+/**
+ * GET /api/v0/rides/{id}/pins
+ * @summary View all pins of a ride selected by id
+ * @tags rides
+ * @param {number} id.path - id of wanted ride
+ * @return {array<DisplayPin>} 200 - Pins successfully retrieved
+ * @return {object} 404 - Ride not found
+ */
+router.get('/:id/pins', (req, res, next) => {
+  const { id } = req.params;
+
+  prisma.pin
+    .findMany({
+      where: {
+        id_ride: parseInt(id, 10),
+      },
+    })
+    .then((pin) => {
+      if (pin !== null) {
+        res.status(200).json(pin);
       }
       next();
     })
