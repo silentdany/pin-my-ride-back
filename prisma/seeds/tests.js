@@ -26,8 +26,6 @@ const prisma = require('../../src/prismaClient');
     data: {
       label: faker.lorem.words(),
       summary: faker.lorem.sentence(),
-      start_date: faker.date.past(),
-      end_date: faker.date.past(),
       lat: faker.address.latitude(),
       long: faker.address.longitude(),
       id_user: 1,
@@ -41,7 +39,6 @@ const prisma = require('../../src/prismaClient');
         summary: faker.lorem.sentence(),
         media: `/media/img/${faker.system.commonFileName()}`,
         media_type: 'image',
-        date: faker.date.past(),
         lat: faker.address.latitude(),
         long: faker.address.longitude(),
         id_ride: 1,
