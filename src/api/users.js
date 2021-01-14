@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const { valUser } = require('../joiSchemas');
-const { joiValidation } = require('../middlewares');
+const { joiValidation, jwtDecode } = require('../middlewares');
 const prisma = require('../prismaClient');
 
 const router = express.Router();
 
+router.use(jwtDecode);
 /**
  * A user (with id for output display)
  * @typedef {object} DisplayUser

@@ -1,3 +1,23 @@
+const jwt = require('jsonwebtoken');
+
+function jwtDecode(req, res, next) {
+  const { authorization } = req.headers;
+  try {
+    if (!authorization) throw new Error('no Authorization header found');
+
+    const [bearer, token] = authorization.split(' ');
+
+    if (bearer === 'Bearer' && token) {
+      const decoded = jwt.verify(token, process.env.SECRET);
+      req.user = decoded;
+      next();
+    }
+  } catch (error) {
+    res.status(403);
+    next(error);
+  }
+}
+
 function notFound(req, res, next) {
   res.status(404);
   const err = new Error('Not Found');
@@ -31,6 +51,7 @@ const joiValidation = (schema) => async (req, res, next) => {
 };
 
 module.exports = {
+  jwtDecode,
   notFound,
   badRequest,
   errorHandler,
