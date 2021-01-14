@@ -1,10 +1,21 @@
 const express = require('express');
+const multer = require('multer');
 const { valPin } = require('../joiSchemas');
 const { joiValidation } = require('../middlewares');
 const prisma = require('../prismaClient');
 
-const router = express.Router();
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './medias');
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.split(' ').join('_');
+    cb(null, `${Date.now()}_${name}`);
+  },
+});
+const upload = multer({ storage });
 
+const router = express.Router();
 /**
  * A pin (with id for output display)
  * @typedef {object} DisplayPin
@@ -21,7 +32,7 @@ const router = express.Router();
 /**
  * A pin
  * @typedef {object} Pin
-* @property {string} label - Name of the pin
+ * @property {string} label - Name of the pin
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
@@ -92,21 +103,30 @@ router.get('/:id', (req, res, next) => {
  * @return {array<DisplayPin>} 201 - Pin successfully created
  * @return {object} 422 - Bad data entries
  */
-router.post('/', joiValidation(valPin), (req, res, next) => {
-  const data = req.body;
+router.post(
+  '/',
+  upload.single('media'),
+  joiValidation(valPin),
+  (req, res, next) => {
+    const data = req.body;
 
-  prisma.pin
-    .create({
-      data: { ...data },
-    })
-    .then((pin) => {
-      res.status(201).json(pin);
-    })
-    .catch((err) => {
-      res.sendStatus(422);
-      next(err);
-    });
-});
+    prisma.pin
+      .create({
+        data: { ...data },
+        // id_ride: parseInt(req.body.id_ride, 10),
+        // media: `${req.protocol}://${req.get('host')}/medias/${
+        //   req.file.filename
+        // }`,
+      })
+      .then((pin) => {
+        res.status(201).json(pin);
+      })
+      .catch((err) => {
+        res.sendStatus(422);
+        next(err);
+      });
+  }
+);
 
 /**
  * DELETE /api/v0/pins/{id}

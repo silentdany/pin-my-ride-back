@@ -13,7 +13,8 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} start_date - Start of ride
  * @property {string} end_date - End of ride
- * @property {object} start_coord - Start coordinates
+ * @property {string} lat- Latitude of coordinate
+ * @property {string} long- Longitude of coordinate
  * @property {number} id_user - User id of the ride
  */
 
@@ -24,7 +25,8 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} start_date - Start of ride
  * @property {string} end_date - End of ride
- * @property {object} start_coord - Start coordinates
+ * @property {string} lat- Latitude of coordinate
+ * @property {string} long- Longitude of coordinate
  * @property {number} id_user - User id of the ride
 
  */
