@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const router = express.Router();
+
 /**
  * A pin (with id for output display)
  * @typedef {object} DisplayPin
@@ -41,10 +42,8 @@ const router = express.Router();
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
-
- */
-
-/**
+ *  /**
+ 
  * GET /api/v0/pins
  * @summary View all pins
  * @tags pins
@@ -95,6 +94,13 @@ router.get('/:id', (req, res, next) => {
       res.sendStatus(404);
       next(err);
     });
+});
+
+// PIN MEDIA UPLOAD
+router.post('/upload', upload.single('media'), (req, res) => {
+  res
+    .status(201)
+    .json({ path: `${req.protocol}://${req.hostname}/${req.file.path}` });
 });
 
 /**
