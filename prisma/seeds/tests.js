@@ -34,17 +34,23 @@ const prisma = require('../../src/prismaClient');
     },
   });
   // PINS SEEDS
-  await prisma.pin.create({
-    data: {
-      label: faker.lorem.words(),
-      summary: faker.lorem.sentence(),
-      media: `/media/img/${faker.system.commonFileName()}`,
-      media_type: 'image',
-      date: faker.date.past(),
-      lat: faker.address.latitude(),
-      long: faker.address.longitude(),
-      id_ride: 1,
-    },
+  const pins = new Array(5).fill('').map(() => {
+    return prisma.pin.create({
+      data: {
+        label: faker.lorem.words(),
+        summary: faker.lorem.sentence(),
+        media: `/media/img/${faker.system.commonFileName()}`,
+        media_type: 'image',
+        date: faker.date.past(),
+        lat: faker.address.latitude(),
+        long: faker.address.longitude(),
+        id_ride: 1,
+      },
+    });
+  });
+  await Promise.all(pins).then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Seeds done !');
   });
 })().finally(async () => {
   await prisma.$disconnect();
