@@ -1,19 +1,50 @@
 const express = require('express');
 const multer = require('multer');
+const path = require('path');
 const { valPin } = require('../joiSchemas');
 const { joiValidation } = require('../middlewares');
 const prisma = require('../prismaClient');
 
+// MULTER CONFIG
+// Storage path
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, './medias');
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.split(' ').join('_');
-    cb(null, `${Date.now()}_${name}`);
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
   },
 });
-const upload = multer({ storage });
+// Check files type
+const checkFileType = (file, cb) => {
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  }
+  return cb('Error: Images Only!');
+};
+// Upload options
+const upload = multer({
+  storage,
+  limits: {
+    fields: 5,
+    fieldNameSize: 10,
+    fieldSize: 20000,
+    fileSize: 25000000,
+  },
+  fileFilter(req, file, cb) {
+    checkFileType(file, cb);
+  },
+}).single('media');
 
 const router = express.Router();
 
@@ -95,10 +126,17 @@ router.get('/:id', (req, res, next) => {
 });
 
 // PIN MEDIA UPLOAD
-router.post('/upload', upload.single('media'), (req, res) => {
-  res
-    .status(201)
-    .json({ path: `${req.protocol}://${req.hostname}/${req.file.path}` });
+router.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res
+        .status(403)
+        .json({ message: 'Error : file type must be .jpg, .jpeg or .png' });
+    }
+    return res
+      .status(201)
+      .json({ path: `${req.protocol}://${req.hostname}/${req.file.path}` });
+  });
 });
 
 /**
@@ -109,26 +147,21 @@ router.post('/upload', upload.single('media'), (req, res) => {
  * @return {array<DisplayPin>} 201 - Pin successfully created
  * @return {object} 422 - Bad data entries
  */
-router.post(
-  '/',
-  upload.single('media'),
-  joiValidation(valPin),
-  (req, res, next) => {
-    const data = req.body;
+router.post('/', joiValidation(valPin), (req, res, next) => {
+  const data = req.body;
 
-    prisma.pin
-      .create({
-        data: { ...data },
-      })
-      .then((pin) => {
-        res.status(201).json(pin);
-      })
-      .catch((err) => {
-        res.sendStatus(422);
-        next(err);
-      });
-  }
-);
+  prisma.pin
+    .create({
+      data: { ...data },
+    })
+    .then((pin) => {
+      res.status(201).json(pin);
+    })
+    .catch((err) => {
+      res.sendStatus(422);
+      next(err);
+    });
+});
 
 /**
  * DELETE /api/v0/pins/{id}
