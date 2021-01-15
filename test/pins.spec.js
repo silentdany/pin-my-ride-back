@@ -13,7 +13,7 @@ describe('GET methods for pins', () => {
   });
 });
 describe('GET /api/v0/pins/:id', () => {
-  it('GET / error (user not found)', async () => {
+  it('GET / error (pin not found)', async () => {
     const res = await supertest(app)
       .get('/api/v0/pins/0')
       .expect(404)
@@ -152,7 +152,7 @@ describe('DELETE methods for pins', () => {
     const expected = {};
     expect(res.body).toEqual(expected);
   });
-  it('DELETE / OK (user successfully deleted)', async () => {
+  it('DELETE / OK (pin successfully deleted)', async () => {
     await supertest(app).delete('/api/v0/pins/3').expect(204);
   });
 });
