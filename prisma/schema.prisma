@@ -9,29 +9,28 @@ datasource db {
 }
 
 model pin {
-  id         Int      @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   label      String
   summary    String
   media      String
   media_type String
-  date       DateTime
-  coord      Json
+  lat        String
+  long       String
   id_ride    Int
-  ride       ride     @relation(fields: [id_ride], references: [id])
+  ride       ride   @relation(fields: [id_ride], references: [id])
 
   @@index([id_ride], name: "pin_ride_FK")
 }
 
 model ride {
-  id          Int      @id @default(autoincrement())
-  label       String
-  summary     String
-  start_date  DateTime
-  end_date    DateTime
-  start_coord Json
-  id_user     Int
-  user        user     @relation(fields: [id_user], references: [id])
-  pin         pin[]
+  id      Int    @id @default(autoincrement())
+  label   String
+  summary String
+  lat     String
+  long    String
+  id_user Int
+  user    user   @relation(fields: [id_user], references: [id])
+  pin     pin[]
 
   @@index([id_user], name: "ride_user_FK")
 }
@@ -40,7 +39,7 @@ model user {
   id        Int    @id @default(autoincrement())
   firstname String
   lastname  String
-  email     String
+  email     String @unique
   password  String
   ride      ride[]
 }

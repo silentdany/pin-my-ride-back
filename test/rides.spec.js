@@ -13,7 +13,7 @@ describe('GET methods for rides', () => {
   });
 });
 describe('GET /api/v0/rides/:id', () => {
-  it('GET / error (user not found)', async () => {
+  it('GET / error (ride not found)', async () => {
     const res = await supertest(app)
       .get('/api/v0/rides/0')
       .expect(404)
@@ -26,6 +26,22 @@ describe('GET /api/v0/rides/:id', () => {
       .expect(200)
       .expect('Content-Type', /json/);
     expect(res.body).toHaveProperty('id');
+  });
+});
+describe('GET /api/v0/rides/:id/pins', () => {
+  it('GET / error (ride not found)', async () => {
+    const res = await supertest(app)
+      .get('/api/v0/rides/0/pins')
+      .expect(404)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('stack');
+  });
+  it('GET / OK (fields provided)', async () => {
+    const res = await supertest(app)
+      .get('/api/v0/rides/1/pins')
+      .expect(200)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveLength(5);
   });
 });
 // RIDES POST
@@ -45,9 +61,8 @@ describe('POST methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(201)
@@ -57,9 +72,8 @@ describe('POST methods for rides', () => {
       label: 'nostrum aut neque',
       summary:
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-      start_date: '2020-08-22T10:05:45.000Z',
-      end_date: '2020-08-25T15:15:45.000Z',
-      start_coord: { lat: '80.4328', long: '52.6715' },
+      lat: '80.4328',
+      long: '52.6715',
       id_user: 1,
     };
     expect(res.body).toEqual(expected);
@@ -74,9 +88,8 @@ describe('PUT methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(404)
@@ -99,9 +112,8 @@ describe('PUT methods for rides', () => {
         label: 'nostrum aut neque',
         summary:
           'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-        start_date: '2020-08-22T10:05:45.000Z',
-        end_date: '2020-08-25T15:15:45.000Z',
-        start_coord: { lat: '80.4328', long: '52.6715' },
+        lat: '80.4328',
+        long: '52.6715',
         id_user: 1,
       })
       .expect(200)
@@ -112,9 +124,8 @@ describe('PUT methods for rides', () => {
       label: 'nostrum aut neque',
       summary:
         'Qui totam consequatur est voluptatibus neque maiores. Quidem esse rerum qui possimus voluptatem. Ut saepe occaecati qui et ea sint.',
-      start_date: '2020-08-22T10:05:45.000Z',
-      end_date: '2020-08-25T15:15:45.000Z',
-      start_coord: { lat: '80.4328', long: '52.6715' },
+      lat: '80.4328',
+      long: '52.6715',
       id_user: 1,
     };
     expect(res.body).toEqual(expected);

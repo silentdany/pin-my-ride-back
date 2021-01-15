@@ -14,11 +14,11 @@ const app = express();
 
 // Documentation init
 expressJSDocSwagger(app)(swaggerOptions);
-
 if (process.env.NODE_ENV !== 'test') {
   expressJSDocSwagger(app)(swaggerOptions);
   app.use(morgan('dev'));
 }
+
 app.use(helmet());
 app.use(cors());
 app.use(express.json());

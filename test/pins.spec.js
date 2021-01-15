@@ -9,7 +9,7 @@ describe('GET methods for pins', () => {
       .get('/api/v0/pins')
       .expect(200)
       .expect('Content-Type', /json/);
-    expect(res.body.length).toEqual(1);
+    expect(res.body.length).toEqual(5);
   });
 });
 describe('GET /api/v0/pins/:id', () => {
@@ -28,6 +28,28 @@ describe('GET /api/v0/pins/:id', () => {
     expect(res.body).toHaveProperty('id');
   });
 });
+// PINS MEDIA UPLOAD POST
+let uploadPath = '';
+describe('POST methods for pins media upload', () => {
+  it('POST / error (bad file type)', async () => {
+    const res = await supertest(app)
+      .post('/api/v0/pins/upload')
+      .attach('media', './testFiles/test.mpg')
+      .expect(403)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('message');
+    uploadPath = res.body.path;
+  });
+  it('POST / OK (file uploaded)', async () => {
+    const res = await supertest(app)
+      .post('/api/v0/pins/upload')
+      .attach('media', './testFiles/test.jpg')
+      .expect(201)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('path');
+    uploadPath = res.body.path;
+  });
+});
 // PINS POST
 describe('POST methods for pins', () => {
   it('POST / error (fields missing)', async () => {
@@ -44,22 +66,22 @@ describe('POST methods for pins', () => {
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: uploadPath,
         media_type: 'image',
-        date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(201)
       .expect('Content-Type', /json/);
     const expected = {
-      id: 2,
+      id: 6,
       label: 'laborum',
       summary: 'Beatae tempore harum omnis.',
-      media: '/media/img/trip.jpg',
+      media: uploadPath,
       media_type: 'image',
-      date: '2020-08-22T15:05:45.000Z',
-      coord: { lat: '80.5333', long: '52.6925' },
+      lat: '80.5333',
+      long: '52.6925',
       id_ride: 1,
     };
     expect(res.body).toEqual(expected);
@@ -73,10 +95,10 @@ describe('PUT methods for pins', () => {
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: uploadPath,
         media_type: 'image',
-        date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(404)
@@ -94,27 +116,27 @@ describe('PUT methods for pins', () => {
   });
   it('PUT / OK (fields provided)', async () => {
     const res = await supertest(app)
-      .put('/api/v0/pins/2')
+      .put('/api/v0/pins/6')
       .send({
         label: 'laborum',
         summary: 'Beatae tempore harum omnis.',
-        media: '/media/img/trip.jpg',
+        media: uploadPath,
         media_type: 'image',
-        date: '2020-08-22T15:05:45.000Z',
-        coord: { lat: '80.5333', long: '52.6925' },
+        lat: '80.5333',
+        long: '52.6925',
         id_ride: 1,
       })
       .expect(200)
       .expect('Content-Type', /json/);
 
     const expected = {
-      id: 2,
+      id: 6,
       label: 'laborum',
       summary: 'Beatae tempore harum omnis.',
-      media: '/media/img/trip.jpg',
+      media: uploadPath,
       media_type: 'image',
-      date: '2020-08-22T15:05:45.000Z',
-      coord: { lat: '80.5333', long: '52.6925' },
+      lat: '80.5333',
+      long: '52.6925',
       id_ride: 1,
     };
     expect(res.body).toEqual(expected);
@@ -131,7 +153,7 @@ describe('DELETE methods for pins', () => {
     expect(res.body).toEqual(expected);
   });
   it('DELETE / OK (user successfully deleted)', async () => {
-    await supertest(app).delete('/api/v0/pins/2').expect(204);
+    await supertest(app).delete('/api/v0/pins/3').expect(204);
   });
 });
 

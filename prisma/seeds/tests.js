@@ -16,7 +16,7 @@ const prisma = require('../../src/prismaClient');
     data: {
       firstname: faker.name.firstName(),
       lastname: faker.name.lastName(),
-      email: faker.internet.email(),
+      email: 'seed@wcs.com',
       password: 'P@ssw0rdÿ',
       ride: {},
     },
@@ -26,29 +26,28 @@ const prisma = require('../../src/prismaClient');
     data: {
       label: faker.lorem.words(),
       summary: faker.lorem.sentence(),
-      start_date: faker.date.past(),
-      end_date: faker.date.past(),
-      start_coord: {
-        lat: faker.address.latitude(),
-        long: faker.address.longitude(),
-      },
+      lat: faker.address.latitude(),
+      long: faker.address.longitude(),
       id_user: 1,
     },
   });
   // PINS SEEDS
-  await prisma.pin.create({
-    data: {
-      label: faker.lorem.words(),
-      summary: faker.lorem.sentence(),
-      media: `/media/img/${faker.system.commonFileName()}`,
-      media_type: 'image',
-      date: faker.date.past(),
-      coord: {
+  const pins = new Array(5).fill('').map(() => {
+    return prisma.pin.create({
+      data: {
+        label: faker.lorem.words(),
+        summary: faker.lorem.sentence(),
+        media: `/media/img/${faker.system.commonFileName()}`,
+        media_type: 'image',
         lat: faker.address.latitude(),
         long: faker.address.longitude(),
+        id_ride: 1,
       },
-      id_ride: 1,
-    },
+    });
+  });
+  await Promise.all(pins).then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Seeds done !');
   });
 })().finally(async () => {
   await prisma.$disconnect();

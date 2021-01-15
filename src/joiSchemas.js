@@ -23,25 +23,18 @@ const valUser = Joi.object().keys({
 const valRide = Joi.object().keys({
   label: Joi.string().min(3).max(100).required(),
   summary: Joi.string().min(3).max(255).required(),
-  start_date: Joi.string().isoDate().required(),
-  end_date: Joi.string().isoDate().required(),
-  start_coord: Joi.object({
-    lat: Joi.string().min(6).max(8),
-    long: Joi.string().min(6).max(9),
-  }),
+  lat: Joi.string().min(6).max(8),
+  long: Joi.string().min(6).max(9),
   id_user: Joi.number().required(),
 });
 
 const valPin = Joi.object().keys({
   label: Joi.string().min(3).max(100).required(),
   summary: Joi.string().min(3).max(255).required(),
-  media: Joi.string().min(15).max(255).required(),
+  media: Joi.string().min(2).max(255).required(),
   media_type: Joi.string().length(5).required(),
-  date: Joi.string().isoDate().required(),
-  coord: Joi.object({
-    lat: Joi.string().min(6).max(8),
-    long: Joi.string().min(6).max(9),
-  }),
+  lat: Joi.string().min(6).max(8),
+  long: Joi.string().min(6).max(9),
   id_ride: Joi.number().required(),
 });
 

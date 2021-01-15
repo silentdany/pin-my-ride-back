@@ -1,7 +1,50 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const { valPin } = require('../joiSchemas');
 const { joiValidation } = require('../middlewares');
 const prisma = require('../prismaClient');
+
+// MULTER CONFIG
+// Storage path
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './medias');
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+// Check files type
+const checkFileType = (file, cb) => {
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  }
+  return cb('Error: Images Only!');
+};
+// Upload options
+const upload = multer({
+  storage,
+  limits: {
+    fields: 5,
+    fieldNameSize: 10,
+    fieldSize: 20000,
+    fileSize: 25000000,
+  },
+  fileFilter(req, file, cb) {
+    checkFileType(file, cb);
+  },
+}).single('media');
 
 const router = express.Router();
 
@@ -13,22 +56,21 @@ const router = express.Router();
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
- * @property {string} date - Date
- * @property {object} coord - Coordinates
+ * @property {string} lat - Latitude of coordinates
+ * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
  */
 
 /**
  * A pin
  * @typedef {object} Pin
-* @property {string} label - Name of the pin
+ * @property {string} label - Name of the pin
  * @property {string} summary - Summary
  * @property {string} media - Media url
  * @property {string} media_type - Media type
- * @property {string} date - Date
- * @property {object} coord - Coordinates
+ * @property {string} lat - Latitude of coordinates
+ * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
-
  */
 
 /**
@@ -82,6 +124,20 @@ router.get('/:id', (req, res, next) => {
       res.sendStatus(404);
       next(err);
     });
+});
+
+// PIN MEDIA UPLOAD
+router.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res
+        .status(403)
+        .json({ message: 'Error : file type must be .jpg, .jpeg or .png' });
+    }
+    return res
+      .status(201)
+      .json({ path: `${req.protocol}://${req.hostname}/${req.file.path}` });
+  });
 });
 
 /**

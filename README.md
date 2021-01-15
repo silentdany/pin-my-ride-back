@@ -31,6 +31,9 @@ DB_NAME=dbName
 
 Second, **edit** `.env`. **You only have to replace the value behind `DB_USER=`**, `DB_PASS=`\*\* with your own root password.
 
+```
+For JWT add `SECRET=`, this is a secret key, you can put what you want.
+
 ## We use in his project
 
 Includes API Server utilities:
@@ -52,3 +55,4 @@ Development utilities:
   - ☕️ Simple, flexible, fun JavaScript test framework for Node.js & The Browser ☕️
 - [supertest](https://www.npmjs.com/package/supertest)
   - HTTP assertions made easy via superagent.
+```
