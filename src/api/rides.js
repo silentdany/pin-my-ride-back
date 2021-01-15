@@ -110,7 +110,7 @@ router.get('/:id/pins', (req, res, next) => {
       },
     })
     .then((pin) => {
-      if (pin !== null) {
+      if (pin.length !== 0) {
         res.status(200).json(pin);
       }
       next();
