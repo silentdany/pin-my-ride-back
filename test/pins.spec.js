@@ -28,9 +28,18 @@ describe('GET /api/v0/pins/:id', () => {
     expect(res.body).toHaveProperty('id');
   });
 });
-// PINS POST
+// PINS MEDIA UPLOAD POST
 let uploadPath = '';
-describe('POST methods for pins', () => {
+describe('POST methods for pins media upload', () => {
+  it('POST / error (bad file type)', async () => {
+    const res = await supertest(app)
+      .post('/api/v0/pins/upload')
+      .attach('media', './testFiles/test.mpg')
+      .expect(403)
+      .expect('Content-Type', /json/);
+    expect(res.body).toHaveProperty('message');
+    uploadPath = res.body.path;
+  });
   it('POST / OK (file uploaded)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins/upload')
@@ -40,6 +49,9 @@ describe('POST methods for pins', () => {
     expect(res.body).toHaveProperty('path');
     uploadPath = res.body.path;
   });
+});
+// PINS POST
+describe('POST methods for pins', () => {
   it('POST / error (fields missing)', async () => {
     const res = await supertest(app)
       .post('/api/v0/pins')
