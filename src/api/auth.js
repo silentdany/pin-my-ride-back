@@ -5,13 +5,20 @@ const prisma = require('../prismaClient');
 const router = express.Router();
 
 /**
+ * Auth
+ * @typedef {object} Auth
+ * @property {string} email - Email
+ * @property {string} password - Password
+ */
+
+/**
  * POST /api/v0/login
  * @summary This route check user
  * @tags auth
- * @param {auth} request.body.required - Enter user data (example: email: "contact@email.com", password : "myPassword")
- * @return {object} 201 - Succesfully check user
- * @return {object} 404 - Not found
- * @return {object} 500 - Internal Server Error
+ * @param {Auth} request.body.required - Enter user data (example: email: "contact@email.com", password : "myPassword")
+ * @return {array<Auth>} 200 - Succesfully check user
+ * @return {object} 404 - User not found
+ * @return {object} 401 - Invalid password
  */
 
 router.post('/', async (req, res, next) => {
