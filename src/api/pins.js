@@ -1,50 +1,7 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
 const { valPin } = require('../joiSchemas');
-const { joiValidation } = require('../middlewares');
+const { joiValidation, upload } = require('../middlewares');
 const prisma = require('../prismaClient');
-
-// MULTER CONFIG
-// Storage path
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, './medias');
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
-// Check files type
-const checkFileType = (file, cb) => {
-  // Allowed ext
-  const filetypes = /jpeg|jpg|png/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  }
-  return cb('Error: Images Only!');
-};
-// Upload options
-const upload = multer({
-  storage,
-  limits: {
-    fields: 5,
-    fieldNameSize: 10,
-    fieldSize: 20000,
-    fileSize: 25000000,
-  },
-  fileFilter(req, file, cb) {
-    checkFileType(file, cb);
-  },
-}).single('media');
 
 const router = express.Router();
 
