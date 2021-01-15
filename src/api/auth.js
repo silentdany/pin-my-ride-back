@@ -16,7 +16,7 @@ const router = express.Router();
  * @summary This route check user
  * @tags auth
  * @param {Auth} request.body.required - Enter user data (example: email: "contact@email.com", password : "myPassword")
- * @return {array<Auth>} 200. - Succesfully check user
+ * @return {array<Auth>} 200 - Succesfully check user
  * @return {object} 404 - User not found
  * @return {object} 401 - Invalid password
  */
