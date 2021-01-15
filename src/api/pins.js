@@ -40,8 +40,9 @@ const router = express.Router();
  * @property {string} lat - Latitude of coordinates
  * @property {string} long - Longitude of coordinates
  * @property {number} id_ride - Ride if the pin
- *  /**
- 
+ */
+
+/**
  * GET /api/v0/pins
  * @summary View all pins
  * @tags pins
